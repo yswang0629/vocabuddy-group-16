@@ -32,4 +32,6 @@ VocaBuddy 是使用 Python 製作的互動式英文單字測驗程式。
 algorithm、recursion、efficient、collaborate、curious、challenge、sustainable、recycle、exercise、confident、analyze、creative、decision、communicate、healthy、technology、protect、responsible、opportunity、improve
 
 ## Google COlab link
+https://colab.research.google.com/github/yswang0629/vocabuddy-group-MicrosoftvsCode/blob/main/VocaBuddy.ipynb
+
 ## program execution mode 
