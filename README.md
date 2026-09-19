@@ -1,4 +1,4 @@
-# vocabuddy-group-MicrosoftvsCode，
+# vocabuddy-group-MicrosoftvsCode
 
 ## group name
 ## group members' name
