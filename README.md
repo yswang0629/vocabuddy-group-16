@@ -1,5 +1,11 @@
-# vocabuddy-group-MicrosoftvsCode
-test_repo 0919
+# vocabuddy-group-MicrosoftvsCode，
 
-### yswang0929's test
-### sapphirealpha’s test
+## group name
+## group members' name
+## group memebers' GitHub account
+
+## project introduction
+## members' division of labor 
+## new vocabulay \& functions
+## Google COlab link
+## program execution mode
