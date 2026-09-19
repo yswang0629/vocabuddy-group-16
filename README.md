@@ -14,7 +14,7 @@ VocaBuddy 是一個簡單的英文單字學習工具，使用 Python 製作，�
 
 ## members' division of labor 
  - 王奕翔 : 建repository, 編輯VocaBuddy.ipynb
- - 方麒燁 : 撰寫README, 編輯VocaBuddy.ipynb
+ - 方麒燁 : 撰寫README, 編輯VocaBuddy.ipynb, 最終確認
 
 ## new vocabulay \& functions
 VocaBuddy 是使用 Python 製作的互動式英文單字測驗程式。
