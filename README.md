@@ -21,7 +21,7 @@ VocaBuddy 是使用 Python 製作的互動式英文單字測驗程式。
 
 #### Functions
 
-- 共有 20 個英文單字。
+- 共有 30 個英文單字。
 - 每次隨機抽出 5 題，不重複。
 - 每題為四選一，選項使用相同詞性。
 - 即時顯示答對或答錯。
@@ -29,9 +29,23 @@ VocaBuddy 是使用 Python 製作的互動式英文單字測驗程式。
 
 #### Vocabulary
 
-algorithm、recursion、efficient、collaborate、curious、challenge、sustainable、recycle、exercise、confident、analyze、creative、decision、communicate、healthy、technology、protect、responsible、opportunity、improve
+| algorithm | recursion | efficient | collaborate | curious | challenge | sustainable | recycle | exercise | confident |
+| --------- | --------- | --------- | ----------- | ------- | --------- | ----------- | ------- | -------- | --------- |
+| 演算法     | 遞迴      | 有效率的   | 合作        | 好奇的   | 挑戰      | 永續的       | 回收    | 運動     | 有自信的   |
+
+| analyze | creative | decision | communicate | healthy | technology | protect | responsible | opportunity | improve |
+| ------- | -------- | -------- | ----------- | ------- | ---------- | ------- | ----------- | ----------- | ------- |
+| 分析     | 有創意的 | 決定      | 溝通        | 健康的   | 科技       | 保護    | 負責任的     | 機會        | 改善     |
+
+| anachronistic | substantiate | conundrum | capricious | establish | phenomenon | contemporary | demonstrate | perspective | deleterious |
+| ------------- | ------------ | --------- | ---------- | --------- | ---------- | ------------ | ----------- | ----------- | ----------- |
+| 過時的         | 證實         | 難題       | 反覆無常的  | 建立      | 現象       | 當代的        | 證明        | 看法        | 有害的       |
+
 
 ## Google COlab link
 https://colab.research.google.com/github/yswang0629/vocabuddy-group-MicrosoftvsCode/blob/main/VocaBuddy.ipynb
 
 ## program execution mode 
+1. 按下左上角的執行儲存格
+2. 開始測驗(註：請填入大寫字元，勿填入其他字元否則會報錯)
+
