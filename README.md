@@ -17,5 +17,19 @@ VocaBuddy 是一個簡單的英文單字學習工具，使用 Python 製作，�
  - 方麒燁 : 撰寫README, 編輯VocaBuddy.ipynb
 
 ## new vocabulay \& functions
+VocaBuddy 是使用 Python 製作的互動式英文單字測驗程式。
+
+#### Functions
+
+- 共有 20 個英文單字。
+- 每次隨機抽出 5 題，不重複。
+- 每題為四選一，選項使用相同詞性。
+- 即時顯示答對或答錯。
+- 測驗結束後顯示答題紀錄、答對題數、答錯題數與正確率。
+
+#### Vocabulary
+
+algorithm、recursion、efficient、collaborate、curious、challenge、sustainable、recycle、exercise、confident、analyze、creative、decision、communicate、healthy、technology、protect、responsible、opportunity、improve
+
 ## Google COlab link
 ## program execution mode 
