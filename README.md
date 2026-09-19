@@ -9,3 +9,4 @@
 ## new vocabulay \& functions
 ## Google COlab link
 ## program execution mode
+哈囉
