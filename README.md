@@ -4,7 +4,7 @@
 MicrosoftvsCode
 
 ## group members' name
-王奕翔 葉濬巧 王于銳 方麒燁
+王奕翔 葉濬巧 王于鋭 方麒燁
 
 ## group memebers' GitHub account
 [@yswang0629](https://github.com/yswang0629) [@alex172217](https://github.com/alex172217) [@RayWang12201](https://github.com/RayWang12201) [@sapphirealpha](https://github.com/sapphirealpha)
