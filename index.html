@@ -268,7 +268,7 @@
           VocaBuddy
         </h1>
         <p>
-          大考中心高中英文參考詞彙表
+          全民英檢參考詞彙表
         </p>
       </header>
       <nav class="modes">
@@ -276,7 +276,7 @@
           單字卡
         </button>
         <button class="mode" data-mode="quiz">
-          隨機測驗
+          測驗
         </button>
         <button class="mode" data-mode="library">
           單字庫
@@ -286,11 +286,11 @@
         <button class="card" id="card">
         </button>
         <div class="controls">
-          <button class="button secondary" id="flip">
-            翻面
+          <button class="button secondary" id="previous-card">
+            上一張
           </button>
           <button class="button" id="next-card">
-            隨機下一張
+            下一張
           </button>
         </div>
       </section>
@@ -428,6 +428,8 @@ const $ = s => document.querySelector(s),
 const s = {
     card: null,
     flip: false,
+    cardHistory: [],
+    cardIndex: -1,
     difficulty: '初級',
     count: 10,
     questions: [],
@@ -445,9 +447,33 @@ function renderCard() {
 }
 
 function nextCard() {
-    s.card = pick(VOCABULARY);
+    if (s.cardIndex < s.cardHistory.length - 1) {
+        s.cardIndex++;
+        s.card = s.cardHistory[s.cardIndex]
+    } else {
+        let next;
+        do next = pick(VOCABULARY);
+        while (VOCABULARY.length > 1 && next === s.card);
+        s.cardHistory.push(next);
+        s.cardIndex++;
+        s.card = next
+    }
     s.flip = false;
-    renderCard()
+    renderCard();
+    updateCardNavigation()
+}
+
+function previousCard() {
+    if (s.cardIndex < 1) return;
+    s.cardIndex--;
+    s.card = s.cardHistory[s.cardIndex];
+    s.flip = false;
+    renderCard();
+    updateCardNavigation()
+}
+
+function updateCardNavigation() {
+    $('#previous-card').disabled = s.cardIndex < 1
 }
 
 function showMode(mode) {
@@ -495,13 +521,39 @@ function meanings(x) {
     return x.chinese.split('、').filter(Boolean)
 }
 
+function primaryPartOfSpeech(x) {
+    let primary = x.partOfSpeech.toLowerCase().split('/')[0].replace('.', '').trim();
+    return {
+        n: 'noun',
+        v: 'verb',
+        adj: 'adjective',
+        adv: 'adverb',
+        prep: 'preposition',
+        conj: 'conjunction',
+        pron: 'pronoun',
+        interj: 'interjection',
+        art: 'article',
+        aux: 'auxiliary'
+    } [primary] || primary
+}
+
+const quizMeaningsByPartOfSpeech = VOCABULARY.reduce((groups, word) => {
+    let group = primaryPartOfSpeech(word);
+    (groups[group] ||= []).push(...meanings(word));
+    return groups
+}, {});
+
 function setupQuestion() {
     let q = s.questions[s.index],
         correctAnswer = pick(meanings(q));
     s.answer = correctAnswer;
     s.locked = false;
-    let opts = new Set([correctAnswer]);
-    while (opts.size < 4) opts.add(pick(meanings(pick(VOCABULARY))));
+    let opts = new Set([correctAnswer]),
+        matchingMeanings = shuffle(quizMeaningsByPartOfSpeech[primaryPartOfSpeech(q)] || []);
+    for (let meaning of matchingMeanings) {
+        opts.add(meaning);
+        if (opts.size === 4) break
+    }
     $('#progress').textContent = `第 ${s.index+1} / ${s.count} 題`;
     $('#score').textContent = `答對 ${s.correct} 題`;
     $('#pos').textContent = `${q.partOfSpeech}｜選出一個正確中文意思`;
@@ -568,10 +620,7 @@ $('#card').onclick = () => {
     s.flip = !s.flip;
     renderCard()
 };
-$('#flip').onclick = () => {
-    s.flip = !s.flip;
-    renderCard()
-};
+$('#previous-card').onclick = previousCard;
 $('#next-card').onclick = nextCard;
 $$('.level:not(.library-level)').forEach(b => b.onclick = () => {
     $$('.level:not(.library-level)').forEach(x => x.classList.toggle('selected', x === b));
