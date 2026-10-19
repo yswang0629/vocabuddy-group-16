@@ -1,35 +1,604 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-Hant">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>YTP VocaBuddy</title>
-<style>
-  body{font-family:system-ui,sans-serif;background:#f4f6f5;margin:0;padding:24px;text-align:center}
-  h1{color:#0f766e}
-  #card{max-width:340px;margin:32px auto;padding:40px 24px;background:#fff;border-radius:14px;
-        box-shadow:0 4px 16px rgba(0,0,0,.08);font-size:2rem;cursor:pointer;user-select:none}
-  #hint{color:#888;font-size:.9rem}
-  button{margin-top:16px;padding:10px 22px;font-size:1rem;border:none;border-radius:8px;
-         background:#0f766e;color:#fff;cursor:pointer}
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>
+      VocaBuddy｜英文單字卡
+    </title>
+    <style>
+:root{
+  --ink:#17324d;
+  --muted:#61758a;
+  --paper:#fffdf8;
+  --accent:#0f766e;
+  --light:#d7f3ed;
+  --wrong:#b42318;
+  --wronglight:#fee4e2}
+  *{
+    box-sizing:border-box}
+    body{
+      min-height:100vh;
+      margin:0;
+      color:var(--ink);
+      background:linear-gradient(135deg,#edf8f6,#fdf7eb);
+      font-family:system-ui,-apple-system,"Microsoft JhengHei",sans-serif}
+      main{
+        width:min(680px,calc(100% - 32px));
+        margin:auto;
+        padding:44px 0}
+        header{
+          text-align:center;
+          margin-bottom:24px}
+          h1{
+            margin:0;
+            color:var(--accent);
+            font-size:clamp(2rem,6vw,3rem)}
+            header p,footer{
+              color:var(--muted)}
+              .modes{
+                display:grid;
+                grid-template-columns:repeat(3,1fr);
+                gap:8px;
+                margin-bottom:18px;
+                padding:6px;
+                border-radius:14px;
+                background:#dfe9e7}
+                .mode{
+                  border:0;
+                  border-radius:10px;
+                  padding:11px;
+                  background:transparent;
+                  color:var(--muted);
+                  cursor:pointer;
+                  font:inherit;
+                  font-weight:700}
+                  .mode.active{
+                    background:#fff;
+                    color:var(--accent);
+                    box-shadow:0 2px 6px #17324d22}
+                    .panel{
+                      background:var(--paper);
+                      border-radius:24px;
+                      padding:clamp(24px,6vw,42px);
+                      box-shadow:0 18px 48px #17324d1e}
+                      [hidden]{
+                        display:none!important}
+                        .card{
+                          min-height:300px;
+                          display:grid;
+                          place-items:center;
+                          padding:30px;
+                          border:0;
+                          border-radius:20px;
+                          background:linear-gradient(145deg,#fff,#eaf9f5);
+                          color:var(--ink);
+                          cursor:pointer;
+                          text-align:center;
+                          width:100%;
+                          box-shadow:inset 0 0 0 2px #d2ebe5}
+                          .card small{
+                            display:block;
+                            margin-bottom:14px;
+                            color:var(--accent);
+                            font-size:.75rem;
+                            font-weight:700}
+                            .term{
+                              font-size:clamp(2rem,8vw,4rem);
+                              font-weight:800;
+                              overflow-wrap:anywhere}
+                              .detail{
+                                font-size:clamp(1.8rem,6vw,2.8rem);
+                                font-weight:800;
+                                line-height:1.3}
+                                .hint{
+                                  margin-top:20px;
+                                  color:var(--muted);
+                                  font-size:.8rem}
+                                  .controls{
+                                    display:grid;
+                                    grid-template-columns:1fr 1fr;
+                                    gap:12px;
+                                    margin-top:18px}
+                                    .button{
+                                      width:100%;
+                                      border:0;
+                                      border-radius:14px;
+                                      padding:14px 16px;
+                                      background:var(--accent);
+                                      color:#fff;
+                                      cursor:pointer;
+                                      font:inherit;
+                                      font-weight:700}
+                                      .button.secondary{
+                                        background:#e3eceb;
+                                        color:var(--ink)}
+                                        .button:focus-visible,.choice:focus-visible,.mode:focus-visible,.card:focus-visible{
+                                          outline:3px solid #f6b73c;
+                                          outline-offset:3px}
+                                          .setting{
+                                            margin:22px 0}
+                                            .setting label{
+                                              display:flex;
+                                              justify-content:space-between;
+                                              font-weight:700}
+                                              .levels{
+                                                display:grid;
+                                                grid-template-columns:repeat(3,1fr);
+                                                gap:8px;
+                                                margin-top:10px}
+                                                .level{
+                                                  border:2px solid #dce5e7;
+                                                  border-radius:12px;
+                                                  padding:10px 4px;
+                                                  background:#fff;
+                                                  color:var(--ink);
+                                                  cursor:pointer;
+                                                  font:inherit}
+                                                  .level.selected{
+                                                    border-color:var(--accent);
+                                                    background:var(--light);
+                                                    color:#075d56}
+                                                    .range{
+                                                      width:100%;
+                                                      accent-color:var(--accent);
+                                                      margin-top:12px}
+                                                      .status{
+                                                        display:flex;
+                                                        justify-content:space-between;
+                                                        gap:12px;
+                                                        color:var(--muted);
+                                                        font-size:.95rem}
+                                                        .score{
+                                                          padding:6px 12px;
+                                                          border-radius:999px;
+                                                          background:var(--light);
+                                                          color:#075d56;
+                                                          font-weight:700}
+                                                          .pos{
+                                                            margin:34px 0 8px;
+                                                            color:var(--accent);
+                                                            font-weight:700}
+                                                            .word{
+                                                              margin:0 0 26px;
+                                                              font-size:clamp(2rem,8vw,4rem);
+                                                              overflow-wrap:anywhere}
+                                                              .choices{
+                                                                display:grid;
+                                                                gap:12px}
+                                                                .choice{
+                                                                  width:100%;
+                                                                  padding:16px 18px;
+                                                                  border:2px solid #dce5e7;
+                                                                  border-radius:14px;
+                                                                  background:#fff;
+                                                                  color:var(--ink);
+                                                                  cursor:pointer;
+                                                                  text-align:left;
+                                                                  font:inherit;
+                                                                  font-size:1.05rem}
+                                                                  .choice:disabled{
+                                                                    cursor:default}
+                                                                    .correct{
+                                                                      border-color:var(--accent)!important;
+                                                                      background:var(--light)!important;
+                                                                      color:#075d56!important}
+                                                                      .incorrect{
+                                                                        border-color:var(--wrong)!important;
+                                                                        background:var(--wronglight)!important;
+                                                                        color:var(--wrong)!important}
+                                                                        .feedback{
+                                                                          min-height:26px;
+                                                                          margin:18px 0 0;
+                                                                          font-weight:700}
+                                                                          .review{
+                                                                            margin:12px 0;
+                                                                            padding:14px;
+                                                                            border-radius:12px;
+                                                                            background:#fff1ef}
+                                                                            .summary{
+                                                                              display:grid;
+                                                                              grid-template-columns:repeat(3,1fr);
+                                                                              gap:10px;
+                                                                              margin:22px 0}
+                                                                              .summary div{
+                                                                                padding:12px;
+                                                                                border-radius:12px;
+                                                                                background:#edf6f4;
+                                                                                text-align:center}
+                                                                                .summary b{
+                                                                                  display:block;
+                                                                                  font-size:1.35rem}
+                                                                                  .library-header{
+                                                                                    display:flex;
+                                                                                    align-items:baseline;
+                                                                                    justify-content:space-between;
+                                                                                    gap:12px}
+                                                                                    .library-header h2{
+                                                                                      margin:0}
+                                                                                      .library-count{
+                                                                                        color:var(--muted);
+                                                                                        font-size:.95rem}
+                                                                                        .library-list{
+                                                                                          position:relative;
+                                                                                          max-height:60vh;
+                                                                                          margin-top:18px;
+                                                                                          overflow:auto;
+                                                                                          border-top:1px solid #dce5e7}
+                                                                                          .library-rows{
+                                                                                            position:absolute;
+                                                                                            top:0;
+                                                                                            right:0;
+                                                                                            left:0}
+                                                                                          .library-row{
+                                                                                            display:grid;
+                                                                                            grid-template-columns:11rem minmax(0,1fr) 4.5rem;
+                                                                                            gap:12px;
+                                                                                            align-items:center;
+                                                                                            box-sizing:border-box;
+                                                                                            height:48px;
+                                                                                            padding:6px 8px 6px 4px;
+                                                                                            border-bottom:1px solid #dce5e7}
+                                                                                            .library-row strong{
+                                                                                              overflow-wrap:anywhere}
+                                                                                              .library-row span{
+                                                                                                color:var(--ink)}
+                                                                                                .library-row small{
+                                                                                                  color:var(--muted);
+                                                                                                  white-space:nowrap}
+                                                                                                  @media (max-width:520px){
+                                                                                                    .library-row{
+                                                                                                      grid-template-columns:7rem minmax(0,1fr);
+                                                                                                      height:64px}
+                                                                                                      .library-row span{
+                                                                                                        grid-column:2}
+                                                                                                        .library-row small{
+                                                                                                          grid-column:2}
+                                                                                                      }
+                                                                                  footer{
+                                                                                    margin-top:20px;
+                                                                                    text-align:center;
+                                                                                    font-size:.9rem}
 </style>
-</head>
-<body>
-<h1>YTP VocaBuddy 背單字夥伴</h1>
-<div id="card">algorithm</div>
-<p id="hint">點卡片看中文，點「下一張」換單字</p>
-<button onclick="next()">下一張</button>
-<script>
-const WORDS = [
-  ["algorithm","演算法"],["recursion","遞迴"],["vocabulary","字彙"],
-  ["memorize","背誦"],["efficient","有效率的"],["persist","堅持；持續"],
-  ["retrieve","取回；檢索"],["interval","間隔"]
-];
-let i = 0, flipped = false;
-const card = document.getElementById("card");
-card.onclick = () => { flipped = !flipped; render(); };
-function next(){ i = (i + 1) % WORDS.length; flipped = false; render(); }
-function render(){ card.textContent = WORDS[i][flipped ? 1 : 0]; }
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>
+          VocaBuddy
+        </h1>
+        <p>
+          大考中心高中英文參考詞彙表
+        </p>
+      </header>
+      <nav class="modes">
+        <button class="mode active" data-mode="cards">
+          單字卡
+        </button>
+        <button class="mode" data-mode="quiz">
+          隨機測驗
+        </button>
+        <button class="mode" data-mode="library">
+          單字庫
+        </button>
+      </nav>
+      <section class="panel" id="cards">
+        <button class="card" id="card">
+        </button>
+        <div class="controls">
+          <button class="button secondary" id="flip">
+            翻面
+          </button>
+          <button class="button" id="next-card">
+            隨機下一張
+          </button>
+        </div>
+      </section>
+      <section class="panel" id="quiz" hidden>
+        <div id="setup">
+          <h2>
+            開始一場測驗
+          </h2>
+          <div class="setting">
+            <label>
+              難度
+              <span id="level-name">
+                初級
+              </span>
+            </label>
+            <div class="levels">
+              <button class="level selected" data-level="初級">
+                初級
+              </button>
+              <button class="level" data-level="中級">
+                中級
+              </button>
+              <button class="level" data-level="中高級">
+                中高級
+              </button>
+            </div>
+          </div>
+          <div class="setting">
+            <label for="count">
+              題數
+              <span id="count-value">
+                10 題
+              </span>
+            </label>
+            <input class="range" id="count" type="range" min="1" max="50" value="10">
+          </div>
+          <button class="button" id="start">
+            開始測驗
+          </button>
+        </div>
+        <div id="playing" hidden>
+          <div class="status">
+            <span id="progress">
+            </span>
+            <span class="score" id="score">
+            </span>
+          </div>
+          <p class="pos" id="pos">
+          </p>
+          <h2 class="word" id="word">
+          </h2>
+          <div class="choices" id="choices">
+          </div>
+          <p class="feedback" id="feedback">
+          </p>
+        </div>
+        <div id="results" hidden>
+          <h2>
+            本次測驗結果
+          </h2>
+          <div class="summary">
+            <div>
+              <b id="result-time">
+              </b>
+              時間
+            </div>
+            <div>
+              <b id="result-rate">
+              </b>
+              正確率
+            </div>
+            <div>
+              <b id="result-score">
+              </b>
+              答對
+            </div>
+          </div>
+          <h3>
+            錯題回顧
+          </h3>
+          <div id="review">
+          </div>
+          <button class="button" id="again">
+            再測一次
+          </button>
+        </div>
+      </section>
+      <section class="panel" id="library" hidden>
+        <div class="library-header">
+          <h2>
+            單字庫
+          </h2>
+          <span class="library-count" id="library-count">
+          </span>
+        </div>
+        <div class="levels" aria-label="單字庫級數">
+          <button class="level library-level selected" data-library-level="初級" type="button">
+            初級
+          </button>
+          <button class="level library-level" data-library-level="中級" type="button">
+            中級
+          </button>
+          <button class="level library-level" data-library-level="中高級" type="button">
+            中高級
+          </button>
+        </div>
+        <div class="library-list" id="library-list">
+          <div class="library-spacer" id="library-spacer">
+          </div>
+          <div class="library-rows" id="library-rows">
+          </div>
+        </div>
+      </section>
+      <footer>
+        目前題庫：
+        <span id="word-count">
+        </span>
+        個詞條
+      </footer>
+    </main>
+    <script src="vocabulary.js">
+    </script>
+    <script>
+const $ = s => document.querySelector(s),
+    $$ = s => document.querySelectorAll(s),
+    shuffle = a => [...a].sort(() => Math.random() - .5),
+    pick = a => a[Math.floor(Math.random() * a.length)],
+    esc = v => String(v).replace(/[&<>'"]/g, c => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        "'": '&#39;',
+        '"': '&quot;'
+    } [c]));
+const s = {
+    card: null,
+    flip: false,
+    difficulty: '初級',
+    count: 10,
+    questions: [],
+    index: 0,
+    correct: 0,
+    wrong: [],
+    started: 0,
+    answer: null,
+    locked: false
+};
+
+function renderCard() {
+    let x = s.card;
+    $('#card').innerHTML = s.flip ? `<div><small>${esc(x.partOfSpeech)} · 全民英檢 ${esc(x.level)}</small><div class="detail">${esc(x.chinese)}</div><div class="hint">點擊回到單字</div></div>` : `<div><small>英文單字</small><div class="term">${esc(x.term)}</div><div class="hint">點擊查看中文釋義與級數</div></div>`
+}
+
+function nextCard() {
+    s.card = pick(VOCABULARY);
+    s.flip = false;
+    renderCard()
+}
+
+function showMode(mode) {
+    $$('.mode').forEach(x => x.classList.toggle('active', x.dataset.mode === mode));
+    $('#cards').hidden = mode !== 'cards';
+    $('#quiz').hidden = mode !== 'quiz';
+    $('#library').hidden = mode !== 'library';
+    if (mode === 'library') renderLibrary()
+}
+
+const libraryCollator = new Intl.Collator('en', {
+        sensitivity: 'base'
+    }),
+    libraryWords = Object.fromEntries(['初級', '中級', '中高級'].map(level => [level, VOCABULARY.filter(x => x.level === level).sort((a, b) => libraryCollator.compare(a.term, b.term))]));
+let libraryLevel = '初級',
+    libraryLastStart = -1,
+    libraryLastHeight = 0;
+
+function libraryRowHeight() {
+    return window.matchMedia('(max-width:520px)').matches ? 64 : 48
+}
+
+function renderLibrary(resetScroll = false) {
+    let words = libraryWords[libraryLevel],
+        list = $('#library-list'),
+        rowHeight = libraryRowHeight();
+    if (resetScroll) list.scrollTop = 0;
+    let start = Math.max(0, Math.floor(list.scrollTop / rowHeight) - 6),
+        visible = Math.ceil(list.clientHeight / rowHeight) + 12;
+    $('#library-count').textContent = `共 ${words.length} 個單字`;
+    $('#library-spacer').style.height = `${words.length * rowHeight}px`;
+    if (start === libraryLastStart && rowHeight === libraryLastHeight) return;
+    libraryLastStart = start;
+    libraryLastHeight = rowHeight;
+    $('#library-rows').style.transform = `translateY(${start * rowHeight}px)`;
+    $('#library-rows').replaceChildren(...words.slice(start, start + visible).map(x => {
+        let row = document.createElement('article');
+        row.className = 'library-row';
+        row.innerHTML = `<strong>${esc(x.term)}</strong><span>${esc(x.chinese)}</span><small>${esc(x.partOfSpeech)}</small>`;
+        return row
+    }))
+}
+
+function meanings(x) {
+    return x.chinese.split('、').filter(Boolean)
+}
+
+function setupQuestion() {
+    let q = s.questions[s.index],
+        correctAnswer = pick(meanings(q));
+    s.answer = correctAnswer;
+    s.locked = false;
+    let opts = new Set([correctAnswer]);
+    while (opts.size < 4) opts.add(pick(meanings(pick(VOCABULARY))));
+    $('#progress').textContent = `第 ${s.index+1} / ${s.count} 題`;
+    $('#score').textContent = `答對 ${s.correct} 題`;
+    $('#pos').textContent = `${q.partOfSpeech}｜選出一個正確中文意思`;
+    $('#word').textContent = q.term;
+    $('#feedback').textContent = '';
+    $('#choices').replaceChildren(...shuffle([...opts]).map(x => {
+        let b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'choice';
+        b.textContent = x;
+        b.onclick = () => answer(x, b);
+        return b
+    }))
+}
+
+function answer(value, button) {
+    if (s.locked) return;
+    s.locked = true;
+    let ok = value === s.answer;
+    if (ok) s.correct++;
+    else s.wrong.push({
+        term: s.questions[s.index].term,
+        your: value,
+        answer: s.answer
+    });
+    for (let b of $('#choices').children) {
+        b.disabled = true;
+        if (b.textContent === s.answer) b.classList.add('correct')
+    }
+    if (!ok) button.classList.add('incorrect');
+    $('#feedback').textContent = ok ? '答對了！' : '正確答案是「' + s.answer + '」';
+    setTimeout(() => {
+        s.index++;
+        s.index < s.count ? setupQuestion() : finish()
+    }, 1000)
+}
+
+function start() {
+    let pool = VOCABULARY.filter(x => x.level === s.difficulty);
+    s.count = Math.min(+$('#count').value, pool.length);
+    s.questions = shuffle(pool).slice(0, s.count);
+    s.index = 0;
+    s.correct = 0;
+    s.wrong = [];
+    s.started = Date.now();
+    $('#setup').hidden = true;
+    $('#results').hidden = true;
+    $('#playing').hidden = false;
+    setupQuestion()
+}
+
+function finish() {
+    let sec = Math.round((Date.now() - s.started) / 1000),
+        m = Math.floor(sec / 60);
+    $('#playing').hidden = true;
+    $('#results').hidden = false;
+    $('#result-time').textContent = `${m}:${String(sec%60).padStart(2,'0')}`;
+    $('#result-rate').textContent = `${Math.round(s.correct/s.count*100)}%`;
+    $('#result-score').textContent = `${s.correct}/${s.count}`;
+    $('#review').innerHTML = s.wrong.length ? s.wrong.map(x => `<div class="review"><b>${esc(x.term)}</b><br>你的答案：${esc(x.your)}<br>正確答案：${esc(x.answer)}</div>`).join('') : '<p>全對！做得很好。</p>'
+}
+$$('.mode').forEach(b => b.onclick = () => showMode(b.dataset.mode));
+$('#card').onclick = () => {
+    s.flip = !s.flip;
+    renderCard()
+};
+$('#flip').onclick = () => {
+    s.flip = !s.flip;
+    renderCard()
+};
+$('#next-card').onclick = nextCard;
+$$('.level:not(.library-level)').forEach(b => b.onclick = () => {
+    $$('.level:not(.library-level)').forEach(x => x.classList.toggle('selected', x === b));
+    s.difficulty = b.dataset.level;
+    $('#level-name').textContent = b.dataset.level
+});
+$$('.library-level').forEach(b => b.onclick = () => {
+    $$('.library-level').forEach(x => x.classList.toggle('selected', x === b));
+    libraryLevel = b.dataset.libraryLevel;
+    libraryLastStart = -1;
+    renderLibrary(true)
+});
+$('#library-list').addEventListener('scroll', () => renderLibrary(), {
+    passive: true
+});
+window.addEventListener('resize', () => {
+    libraryLastStart = -1;
+    renderLibrary()
+});
+$('#count').oninput = e => $('#count-value').textContent = e.target.value + ' 題';
+$('#start').onclick = start;
+$('#again').onclick = () => {
+    $('#results').hidden = true;
+    $('#setup').hidden = false
+};
+$('#word-count').textContent = VOCABULARY.length;
+nextCard();
 </script>
-</body>
+  </body>
 </html>
