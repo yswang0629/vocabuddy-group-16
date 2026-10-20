@@ -18,8 +18,8 @@ VocaBuddy 是一個簡單的英文單字學習網站，適合透過單字卡、�
 
 ## members' division of labor
 
-- 王奕翔：建立 repository、編輯 `VocaBuddy.ipynb`
-- 方麒燁：撰寫 README、編輯 `VocaBuddy.ipynb`、最終確認
+- 王奕翔：建立 repository、編輯網站功能
+- 方麒燁：撰寫 README、最終確認
 
 ## new vocabulay & functions
 
@@ -32,10 +32,6 @@ VocaBuddy 提供初級、中級與中高級三個級數的單字練習。
 - 測驗選項：每題皆為中文選項，並依題目的主要詞性分組。
 - 測驗結果：答題後立即顯示對錯，1 秒後自動進入下一題；結束後顯示時間、正確率與錯題回顧。
 - 單字庫：依級數篩選，並按英文字典序列出英文、中文與詞性。
-
-## Google COlab link
-
-https://colab.research.google.com/github/yswang0629/vocabuddy-group-MicrosoftvsCode/blob/main/VocaBuddy.ipynb
 
 ## program execution mode
 
